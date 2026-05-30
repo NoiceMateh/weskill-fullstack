@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --c1:#0F0E1A;--c2:#1A1830;--c3:#241F40;
+  --accent:#7C6FFF;--accent2:#FF6B6B;--accent3:#00D4AA;
+  --gold:#F0B429;
+  --text:#F0EEF8;--muted:#8884A8;
+  --card-bg:rgba(255,255,255,0.04);--card-border:rgba(255,255,255,0.08);
+}
+body{background:var(--c1);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;padding:0}
+
+/* ── GRID SECTIONS ── */
+.showcase{display:grid;grid-template-columns:1fr;gap:0}
+
+/* ── HERO ── */
+.hero{position:relative;padding:64px 40px 56px;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(124,111,255,0.25) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 80% 80%,rgba(0,212,170,0.12) 0%,transparent 60%);animation:heroGlow 6s ease-in-out infinite alternate}
+@keyframes heroGlow{from{opacity:.7}to{opacity:1}}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(124,111,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(124,111,255,0.04) 1px,transparent 1px);background-size:40px 40px;animation:gridMove 20s linear infinite}
+@keyframes gridMove{from{transform:translateY(0)}to{transform:translateY(40px)}}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(124,111,255,0.12);border:1px solid rgba(124,111,255,0.3);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;animation:fadeUp .6s ease both}
+.dot-live{width:6px;height:6px;background:#00D4AA;border-radius:50%;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(32px,6vw,56px);font-weight:800;line-height:1.05;letter-spacing:-.02em;animation:fadeUp .7s ease .1s both}
+.hero h1 .line2{display:block;background:linear-gradient(135deg,var(--accent),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--muted);margin-top:16px;max-width:440px;margin-inline:auto;line-height:1.7;animation:fadeUp .7s ease .2s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TABS NAV ── */
+.tabs-nav{display:flex;gap:4px;padding:0 40px 20px;animation:fadeUp .6s ease .3s both;flex-wrap:wrap}
+.tab-btn{padding:8px 18px;border-radius:20px;font-size:13px;cursor:pointer;border:1px solid var(--card-border);background:transparent;color:var(--muted);transition:all .2s;font-family:'DM Sans',sans-serif;font-weight:400}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tab-btn:hover:not(.active){background:rgba(255,255,255,0.06);color:var(--text)}
+
+/* ── PANEL ── */
+.panel{display:none;padding:0 40px 48px;animation:fadeIn .3s ease}
+.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION LABEL ── */
+.sec-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;margin-top:32px}
+
+/* ── CARDS GRID ── */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+
+/* ── GLASSMORPHISM CARD ── */
+.glass-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:20px;position:relative;overflow:hidden;transition:transform .25s ease,border-color .25s;cursor:pointer}
+.glass-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at var(--mx,50%) var(--my,50%),rgba(124,111,255,0.08) 0%,transparent 60%);opacity:0;transition:opacity .3s}
+.glass-card:hover{transform:translateY(-3px);border-color:rgba(124,111,255,0.3)}
+.glass-card:hover::before{opacity:1}
+
+/* ── JOB CARD ── */
+.job-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;padding:18px;transition:all .25s;cursor:pointer;position:relative;overflow:hidden}
+.job-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);border-radius:3px 0 0 3px;transform:scaleY(0);transition:transform .25s}
+.job-card:hover{background:rgba(124,111,255,0.06);border-color:rgba(124,111,255,0.25);transform:translateX(4px)}
+.job-card:hover::after{transform:scaleY(1)}
+.job-title{font-size:15px;font-weight:500;margin-bottom:6px;color:var(--text)}
+.job-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.chip{display:inline-flex;align-items:center;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;letter-spacing:.03em}
+.chip-purple{background:rgba(124,111,255,0.15);color:#A89CFF}
+.chip-green{background:rgba(0,212,170,0.12);color:#00D4AA}
+.chip-gold{background:rgba(240,180,41,0.12);color:var(--gold)}
+.chip-red{background:rgba(255,107,107,0.12);color:var(--accent2)}
+.job-budget{font-size:18px;font-weight:700;font-family:'Syne',sans-serif;color:var(--accent3);margin-top:4px}
+
+/* ── STAT CARDS ── */
+.stat-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:16px 20px;position:relative;overflow:hidden}
+.stat-num{font-size:28px;font-weight:800;font-family:'Syne',sans-serif;line-height:1}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px}
+.stat-trend{position:absolute;top:14px;right:14px;font-size:11px;font-weight:500}
+.trend-up{color:var(--accent3)}
+.trend-down{color:var(--accent2)}
+.stat-bar{position:absolute;bottom:0;left:0;right:0;height:2px}
+
+/* COUNTER ANIMATION */
+.count-anim{display:inline-block}
+
+/* ── BUTTON STYLES ── */
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;font-weight:500;transition:all .2s;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .15s}
+.btn:active::after{background:rgba(255,255,255,0.08)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#9689FF;transform:translateY(-1px);box-shadow:0 8px 24px rgba(124,111,255,0.4)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--card-border)}
+.btn-outline:hover{border-color:rgba(124,111,255,0.5);background:rgba(124,111,255,0.08);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--muted)}
+.btn-ghost:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.btn-danger{background:rgba(255,107,107,0.12);color:var(--accent2);border:1px solid rgba(255,107,107,0.2)}
+.btn-danger:hover{background:rgba(255,107,107,0.2);transform:translateY(-1px)}
+.btn-glow{background:linear-gradient(135deg,var(--accent),var(--accent3));color:#fff}
+.btn-glow:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,212,170,0.35)}
+
+/* ── INPUT STYLES ── */
+.form-group{margin-bottom:16px}
+.form-label{font-size:12px;color:var(--muted);margin-bottom:6px;display:block;letter-spacing:.04em;text-transform:uppercase}
+.form-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--card-border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:all .2s}
+.form-input:focus{border-color:var(--accent);background:rgba(124,111,255,0.08);box-shadow:0 0 0 3px rgba(124,111,255,0.15)}
+.form-input::placeholder{color:var(--muted)}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ── WALLET CARD ── */
+.wallet-card{background:linear-gradient(135deg,#1A1830 0%,#0F1E35 100%);border:1px solid rgba(124,111,255,0.2);border-radius:18px;padding:24px;position:relative;overflow:hidden}
+.wallet-card::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(124,111,255,0.25),transparent 70%)}
+.wallet-card::after{content:'';position:absolute;bottom:-20px;left:20px;width:80px;height:80px;background:radial-gradient(circle,rgba(0,212,170,0.15),transparent 70%)}
+.wallet-addr{font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);margin:8px 0 20px;letter-spacing:.04em}
+.wallet-balance{font-size:36px;font-weight:800;font-family:'Syne',sans-serif;background:linear-gradient(135deg,#fff,var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.wallet-unit{font-size:16px;font-weight:400;color:var(--muted);-webkit-text-fill-color:var(--muted)}
+.wallet-actions{display:flex;gap:10px;margin-top:20px}
+.wallet-btn{flex:1;padding:10px;border-radius:10px;font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;font-weight:500;transition:all .2s}
+.wb-send{background:var(--accent);color:#fff}
+.wb-send:hover{background:#9689FF}
+.wb-receive{background:rgba(255,255,255,0.08);color:var(--text)}
+.wb-receive:hover{background:rgba(255,255,255,0.12)}
+
+/* ── PROGRESS / MILESTONE ── */
+.milestone-track{display:flex;align-items:center;gap:0;margin:20px 0;position:relative}
+.m-step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.m-step:not(:last-child)::after{content:'';position:absolute;top:14px;left:50%;width:100%;height:2px;background:var(--card-border);z-index:0}
+.m-step.done:not(:last-child)::after{background:var(--accent3)}
+.m-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;z-index:1;position:relative;transition:all .3s}
+.m-dot.done{background:var(--accent3);color:#0a1a14}
+.m-dot.active{background:var(--accent);color:#fff;box-shadow:0 0 0 4px rgba(124,111,255,0.25);animation:ringPulse 2s ease infinite}
+@keyframes ringPulse{0%,100%{box-shadow:0 0 0 4px rgba(124,111,255,0.25)}50%{box-shadow:0 0 0 8px rgba(124,111,255,0.1)}}
+.m-dot.idle{background:var(--card-bg);border:1px solid var(--card-border);color:var(--muted)}
+.m-label{font-size:10px;color:var(--muted);margin-top:6px;text-align:center;letter-spacing:.03em}
+.m-step.done .m-label,.m-step.active .m-label{color:var(--text)}
+
+/* ── TOAST / NOTIFICATION ── */
+.toast{display:flex;align-items:flex-start;gap:12px;background:rgba(30,28,50,0.95);border:1px solid var(--card-border);border-radius:12px;padding:14px 16px;margin-bottom:10px;animation:slideIn .4s ease both;position:relative;overflow:hidden}
+.toast-progress{position:absolute;bottom:0;left:0;height:2px;background:var(--accent);animation:countdown 3s linear both}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes countdown{from{width:100%}to{width:0%}}
+.toast-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.toast-success .toast-icon{background:rgba(0,212,170,0.12);color:var(--accent3)}
+.toast-info .toast-icon{background:rgba(124,111,255,0.12);color:var(--accent)}
+.toast-warn .toast-icon{background:rgba(240,180,41,0.12);color:var(--gold)}
+.toast-title{font-size:13px;font-weight:500;margin-bottom:2px}
+.toast-body{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* ── AVATAR ROW ── */
+.avatar-stack{display:flex;align-items:center}
+.avatar{width:36px;height:36px;border-radius:50%;border:2px solid var(--c1);margin-left:-10px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Syne',sans-serif}
+.avatar:first-child{margin-left:0}
+
+/* ── LOADING SKELETON ── */
+@keyframes shimmer{0%{background-position:-500px 0}100%{background-position:500px 0}}
+.skeleton{background:linear-gradient(90deg,rgba(255,255,255,0.04) 25%,rgba(255,255,255,0.08) 50%,rgba(255,255,255,0.04) 75%);background-size:1000px 100%;animation:shimmer 1.5s infinite;border-radius:6px}
+
+/* ── BADGE / TAG ── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500}
+.badge-live{background:rgba(0,212,170,0.1);color:var(--accent3);border:1px solid rgba(0,212,170,0.2)}
+.badge-new{background:rgba(124,111,255,0.1);color:#A89CFF;border:1px solid rgba(124,111,255,0.25)}
+.badge-hot{background:rgba(255,107,107,0.1);color:var(--accent2);border:1px solid rgba(255,107,107,0.2)}
+
+/* ── TOGGLE ── */
+.toggle-wrap{display:flex;align-items:center;gap:12px}
+.toggle{width:44px;height:24px;background:var(--card-border);border-radius:12px;position:relative;cursor:pointer;transition:background .2s;border:none}
+.toggle.on{background:var(--accent)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+.toggle.on::after{transform:translateX(20px)}
+.toggle-label{font-size:13px;color:var(--text)}
+
+/* ── RANGE ── */
+.range-wrap{margin:12px 0}
+.range-header{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px}
+.range-val{color:var(--accent);font-weight:500}
+input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--card-border);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 0 3px rgba(124,111,255,0.2);transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+
+/* ── HOVER EFFECT DEMO ── */
+.hover-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px}
+.hover-box{height:80px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--card-border);cursor:pointer;transition:all .25s;color:var(--muted)}
+.hb1:hover{background:rgba(124,111,255,0.15);border-color:var(--accent);color:#A89CFF;transform:scale(1.04)}
+.hb2:hover{background:rgba(0,212,170,0.1);border-color:var(--accent3);color:var(--accent3);transform:translateY(-4px)}
+.hb3:hover{background:rgba(255,107,107,0.1);border-color:var(--accent2);color:var(--accent2);transform:rotate(-2deg) scale(1.05)}
+.hb4:hover{background:rgba(240,180,41,0.1);border-color:var(--gold);color:var(--gold);box-shadow:0 0 24px rgba(240,180,41,0.2)}
+.hb5:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.2);color:var(--text);transform:translateX(4px)}
+.hb6:hover{background:rgba(124,111,255,0.12);border-color:rgba(124,111,255,0.3);color:var(--accent);letter-spacing:.12em}
+
+/* ── SCROLL PROGRESS BAR ── */
+.progress-bar-wrap{background:var(--card-bg);border-radius:6px;height:6px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;border-radius:6px;transition:width 1s cubic-bezier(.22,1,.36,1)}
+</style>
+</head>
+<body>
+<div class="showcase">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div style="position:relative;z-index:1">
+    <div class="hero-tag"><span class="dot-live"></span>Web3 Design System</div>
+    <h1>Professional UI Skills<span class="line2">& Motion Design</span></h1>
+    <p class="hero-sub">Bộ component, animation và interaction pattern dành cho dự án Web3 Freelance Marketplace</p>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-nav">
+  <button class="tab-btn active" onclick="switchTab('cards')">Job Cards</button>
+  <button class="tab-btn" onclick="switchTab('wallet')">Wallet UI</button>
+  <button class="tab-btn" onclick="switchTab('buttons')">Buttons & Forms</button>
+  <button class="tab-btn" onclick="switchTab('motion')">Motion & States</button>
+  <button class="tab-btn" onclick="switchTab('notify')">Notifications</button>
+</div>
+
+<!-- PANEL: CARDS -->
+<div id="panel-cards" class="panel active">
+  <div class="sec-label">Stats Dashboard</div>
+  <div class="grid3">
+    <div class="stat-card">
+      <div class="stat-trend trend-up">↑ 12.4%</div>
+      <div class="stat-num" id="stat1" style="color:#A89CFF">0</div>
+      <div class="stat-label">Total Jobs Posted</div>
+      <div class="stat-bar" style="background:linear-gradient(90deg,var(--accent),transparent)"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-trend trend-up">↑ 8.1%</div>
+      <div class="stat-num" id="stat2" style="color:#00D4AA">0</div>
+      <div class="stat-label">Active Freelancers</div>
+      <div class="stat-bar" style="background:linear-gradient(90deg,var(--accent3),transparent)"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-trend trend-down">↓ 2.3%</div>
+      <div class="stat-num" id="stat3" style="color:var(--gold)">0 ETH</div>
+      <div class="stat-label">Total Locked in Escrow</div>
+      <div class="stat-bar" style="background:linear-gradient(90deg,var(--gold),transparent)"></div>
+    </div>
+  </div>
+
+  <div class="sec-label" style="margin-top:28px">Open Jobs</div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="job-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="job-title">Build Smart Contract Audit Tool</div>
+          <div class="job-meta">
+            <span class="chip chip-purple">Solidity</span>
+            <span class="chip chip-green">DeFi</span>
+            <span class="chip chip-gold">Expert</span>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div class="job-budget">2.5 ETH</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">≈ $7,400</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+        <div class="avatar-stack">
+          <div class="avatar" style="background:#26215C;color:#A89CFF">TK</div>
+          <div class="avatar" style="background:#04342C;color:#00D4AA">AR</div>
+          <div class="avatar" style="background:#412402;color:var(--gold)">MN</div>
+          <div style="font-size:11px;color:var(--muted);margin-left:8px">12 proposals</div>
+        </div>
+        <div style="font-size:11px;color:var(--muted)">2 days left</div>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="job-title">Design NFT Marketplace Dashboard</div>
+          <div class="job-meta">
+            <span class="chip chip-purple">Figma</span>
+            <span class="chip chip-green">Next.js</span>
+            <span class="chip chip-red">Urgent</span>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div class="job-budget">0.8 ETH</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">≈ $2,360</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+        <div class="avatar-stack">
+          <div class="avatar" style="background:#042C53;color:#85B7EB">LP</div>
+          <div class="avatar" style="background:#4B1528;color:#ED93B1">SV</div>
+          <div style="font-size:11px;color:var(--muted);margin-left:8px">5 proposals</div>
+        </div>
+        <div style="font-size:11px;color:var(--accent2)">18 hrs left</div>
+      </div>
+    </div>
+
+    <div class="job-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="job-title">Integrate IPFS Storage with Node.js API</div>
+          <div class="job-meta">
+            <span class="chip chip-green">Node.js</span>
+            <span class="chip chip-gold">PostgreSQL</span>
+            <span class="chip chip-purple">IPFS</span>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div class="job-budget">1.2 ETH</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">≈ $3,540</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+        <div class="avatar-stack">
+          <div class="avatar" style="background:#173404;color:#C0DD97">NH</div>
+          <div class="avatar" style="background:#26215C;color:#A89CFF">PT</div>
+          <div class="avatar" style="background:#412402;color:var(--gold)">RK</div>
+          <div style="font-size:11px;color:var(--muted);margin-left:8px">8 proposals</div>
+        </div>
+        <div style="font-size:11px;color:var(--muted)">5 days left</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: WALLET -->
+<div id="panel-wallet" class="panel">
+  <div class="sec-label">Wallet Component</div>
+  <div class="grid2">
+    <div class="wallet-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase">My Wallet</div>
+        <div style="display:flex;gap:6px">
+          <div class="badge badge-live"><span style="width:5px;height:5px;background:currentColor;border-radius:50%;display:inline-block"></span>Connected</div>
+        </div>
+      </div>
+      <div class="wallet-addr">0x71C7...F3a8</div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Total Balance</div>
+        <div><span class="wallet-balance" id="walletBal">4.285</span> <span class="wallet-unit">ETH</span></div>
+        <div style="font-size:13px;color:var(--muted);margin-top:4px" id="walletUSD">≈ $12,641.50</div>
+      </div>
+      <div class="wallet-actions">
+        <button class="wallet-btn wb-send" onclick="animateBtn(this)">↑ Send</button>
+        <button class="wallet-btn wb-receive" onclick="animateBtn(this)">↓ Receive</button>
+        <button class="wallet-btn wb-receive" onclick="animateBtn(this)">⇌ Swap</button>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase">Escrow Activity</div>
+      <div class="glass-card" style="padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div>
+            <div style="font-size:13px;font-weight:500">Smart Contract Audit</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Milestone 2 / 4</div>
+          </div>
+          <div style="font-size:16px;font-weight:700;color:var(--accent3)">2.5 ETH</div>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-fill" style="width:48%;background:linear-gradient(90deg,var(--accent),var(--accent3))"></div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;display:flex;justify-content:space-between">
+          <span>48% complete</span><span>Released: 1.2 ETH</span>
+        </div>
+      </div>
+
+      <div class="glass-card" style="padding:14px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em">Recent Transactions</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:28px;height:28px;border-radius:8px;background:rgba(0,212,170,0.1);display:flex;align-items:center;justify-content:center;font-size:13px">↓</div>
+              <div>
+                <div style="font-size:12px;font-weight:500">Received</div>
+                <div style="font-size:10px;color:var(--muted)">2 hrs ago</div>
+              </div>
+            </div>
+            <div style="font-size:13px;font-weight:500;color:var(--accent3)">+0.8 ETH</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:28px;height:28px;border-radius:8px;background:rgba(124,111,255,0.1);display:flex;align-items:center;justify-content:center;font-size:13px">⇌</div>
+              <div>
+                <div style="font-size:12px;font-weight:500">Escrow Lock</div>
+                <div style="font-size:10px;color:var(--muted)">1 day ago</div>
+              </div>
+            </div>
+            <div style="font-size:13px;font-weight:500;color:var(--muted)">-2.5 ETH</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-label">Milestone Tracker</div>
+  <div class="glass-card">
+    <div class="milestone-track">
+      <div class="m-step done">
+        <div class="m-dot done">✓</div>
+        <div class="m-label">Setup</div>
+      </div>
+      <div class="m-step done">
+        <div class="m-dot done">✓</div>
+        <div class="m-label">Design</div>
+      </div>
+      <div class="m-step active">
+        <div class="m-dot active">3</div>
+        <div class="m-label">Dev</div>
+      </div>
+      <div class="m-step idle">
+        <div class="m-dot idle">4</div>
+        <div class="m-label">Review</div>
+      </div>
+      <div class="m-step idle">
+        <div class="m-dot idle">5</div>
+        <div class="m-label">Release</div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:12px">
+      <span style="font-size:12px;color:var(--muted)">Milestone 3: Frontend Development</span>
+      <span style="font-size:12px;color:var(--accent)">In Progress</span>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: BUTTONS & FORMS -->
+<div id="panel-buttons" class="panel">
+  <div class="sec-label">Button Variants</div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="ripple(this)">Connect Wallet</button>
+    <button class="btn btn-outline" onclick="ripple(this)">View Profile</button>
+    <button class="btn btn-glow" onclick="ripple(this)">Post a Job ✦</button>
+    <button class="btn btn-danger" onclick="ripple(this)">Raise Dispute</button>
+    <button class="btn btn-ghost" onclick="ripple(this)">Cancel</button>
+  </div>
+
+  <div class="sec-label">Loading State</div>
+  <div class="btn-row">
+    <button class="btn btn-primary" id="loadBtn" onclick="simulateLoad(this)">Submit Proposal</button>
+    <button class="btn btn-outline" id="loadBtn2" onclick="simulateLoad2(this)">Deploy Contract</button>
+  </div>
+
+  <div class="sec-label">Job Posting Form</div>
+  <div class="glass-card">
+    <div class="input-row">
+      <div class="form-group">
+        <label class="form-label">Job Title</label>
+        <input class="form-input" type="text" placeholder="e.g. Build DeFi Dashboard">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <input class="form-input" type="text" placeholder="Smart Contract, Design...">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea class="form-input" rows="3" style="resize:none" placeholder="Describe your project requirements..."></textarea>
+    </div>
+    <div class="input-row">
+      <div class="form-group">
+        <label class="form-label">Budget (ETH)</label>
+        <input class="form-input" type="text" placeholder="e.g. 1.5">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Deadline</label>
+        <input class="form-input" type="text" placeholder="30 days">
+      </div>
+    </div>
+
+    <div class="range-wrap">
+      <div class="range-header">
+        <span>Experience Level</span>
+        <span class="range-val" id="expLevel">Intermediate</span>
+      </div>
+      <input type="range" min="1" max="3" value="2" step="1" oninput="updateExp(this.value)">
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px">
+      <div class="toggle-wrap">
+        <button class="toggle on" id="tog1" onclick="toggleMe('tog1')"></button>
+        <span class="toggle-label">Allow proposals via token</span>
+      </div>
+      <button class="btn btn-glow" onclick="ripple(this)" style="padding:10px 24px">Post Job ↗</button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: MOTION -->
+<div id="panel-motion" class="panel">
+  <div class="sec-label">Hover Interactions — thử hover vào từng ô</div>
+  <div class="hover-grid">
+    <div class="hover-box hb1">Lift + Color</div>
+    <div class="hover-box hb2">Float Up</div>
+    <div class="hover-box hb3">Rotate</div>
+    <div class="hover-box hb4">Glow</div>
+    <div class="hover-box hb5">Slide</div>
+    <div class="hover-box hb6">Expand Text</div>
+  </div>
+
+  <div class="sec-label">Skeleton Loading</div>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="glass-card" style="display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:center">
+      <div class="skeleton" style="width:48px;height:48px;border-radius:12px"></div>
+      <div>
+        <div class="skeleton" style="height:14px;width:70%;margin-bottom:8px"></div>
+        <div class="skeleton" style="height:12px;width:45%"></div>
+      </div>
+    </div>
+    <div class="glass-card">
+      <div class="skeleton" style="height:12px;width:30%;margin-bottom:10px"></div>
+      <div class="skeleton" style="height:10px;width:100%;margin-bottom:6px"></div>
+      <div class="skeleton" style="height:10px;width:85%;margin-bottom:6px"></div>
+      <div class="skeleton" style="height:10px;width:60%"></div>
+    </div>
+  </div>
+
+  <div class="sec-label">Animated Progress Bars</div>
+  <div class="glass-card">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px"><span>Solidity</span><span>88%</span></div>
+        <div class="progress-bar-wrap"><div class="progress-fill" id="pb1" style="width:0%;background:linear-gradient(90deg,var(--accent),#A89CFF)"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px"><span>React / Next.js</span><span>92%</span></div>
+        <div class="progress-bar-wrap"><div class="progress-fill" id="pb2" style="width:0%;background:linear-gradient(90deg,var(--accent3),#9FE1CB)"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px"><span>PostgreSQL</span><span>75%</span></div>
+        <div class="progress-bar-wrap"><div class="progress-fill" id="pb3" style="width:0%;background:linear-gradient(90deg,var(--gold),#FAC775)"></div></div>
+      </div>
+    </div>
+    <button class="btn btn-outline" style="margin-top:16px;font-size:12px" onclick="animateBars()">Replay Animation</button>
+  </div>
+
+  <div class="sec-label">Glassmorphism Cards — hover để thấy spotlight</div>
+  <div class="grid2">
+    <div class="glass-card" id="gc1" onmousemove="spotlight(event,'gc1')">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:36px;height:36px;border-radius:10px;background:rgba(124,111,255,0.15);display:flex;align-items:center;justify-content:center;font-size:18px">⬡</div>
+        <div>
+          <div style="font-size:14px;font-weight:500">Escrow Protocol</div>
+          <div style="font-size:11px;color:var(--muted)">On-chain payment</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6">Tiền được khóa trong smart contract, tự động giải ngân khi milestone được xác nhận.</p>
+    </div>
+    <div class="glass-card" id="gc2" onmousemove="spotlight(event,'gc2')">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:36px;height:36px;border-radius:10px;background:rgba(0,212,170,0.12);display:flex;align-items:center;justify-content:center;font-size:18px">◈</div>
+        <div>
+          <div style="font-size:14px;font-weight:500">Reputation System</div>
+          <div style="font-size:11px;color:var(--muted)">On-chain reviews</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6">Rating và review được ghi lên blockchain, không thể bị xóa hoặc giả mạo.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL: NOTIFICATIONS -->
+<div id="panel-notify" class="panel">
+  <div class="sec-label">Toast Notifications</div>
+  <div id="toast-area">
+    <div class="toast toast-success">
+      <div class="toast-icon">✓</div>
+      <div><div class="toast-title">Escrow Released</div><div class="toast-body">0.8 ETH đã được giải ngân cho freelancer thành công</div></div>
+      <div class="toast-progress"></div>
+    </div>
+    <div class="toast toast-info" style="animation-delay:.15s">
+      <div class="toast-icon">⬡</div>
+      <div><div class="toast-title">New Proposal</div><div class="toast-body">Alex R. đã gửi proposal cho "Smart Contract Audit"</div></div>
+      <div class="toast-progress" style="animation-delay:.15s"></div>
+    </div>
+    <div class="toast toast-warn" style="animation-delay:.3s">
+      <div class="toast-icon">⚠</div>
+      <div><div class="toast-title">Deadline Approaching</div><div class="toast-body">Job "NFT Dashboard" còn 18 tiếng để hoàn thành</div></div>
+      <div class="toast-progress" style="animation-delay:.3s"></div>
+    </div>
+  </div>
+  <button class="btn btn-outline" style="margin-top:12px;font-size:13px" onclick="addToast()">+ Thêm notification</button>
+
+  <div class="sec-label">Badge & Status Variants</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px">
+    <span class="badge badge-live">● Live</span>
+    <span class="badge badge-new">✦ New</span>
+    <span class="badge badge-hot">🔥 Hot</span>
+    <span class="chip chip-purple">Web3</span>
+    <span class="chip chip-green">Verified</span>
+    <span class="chip chip-gold">Pro</span>
+    <span class="chip chip-red">Urgent</span>
+  </div>
+
+  <div class="sec-label">Toggle Switches</div>
+  <div class="glass-card">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:13px;font-weight:500">Email Notifications</div>
+          <div style="font-size:11px;color:var(--muted)">Nhận thông báo qua email</div>
+        </div>
+        <button class="toggle on" id="notif1" onclick="toggleMe('notif1')"></button>
+      </div>
+      <div style="border-top:1px solid var(--card-border);padding-top:14px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:13px;font-weight:500">On-chain Events</div>
+          <div style="font-size:11px;color:var(--muted)">Thông báo khi có tx trên blockchain</div>
+        </div>
+        <button class="toggle on" id="notif2" onclick="toggleMe('notif2')"></button>
+      </div>
+      <div style="border-top:1px solid var(--card-border);padding-top:14px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:13px;font-weight:500">Marketing Updates</div>
+          <div style="font-size:11px;color:var(--muted)">Tin tức và khuyến mãi</div>
+        </div>
+        <button class="toggle" id="notif3" onclick="toggleMe('notif3')"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+  if(name==='motion') setTimeout(animateBars,300);
+}
+
+// Counter animation
+function animateCount(el, target, suffix, duration){
+  let start=0, step=target/60;
+  let t=setInterval(()=>{
+    start+=step;
+    if(start>=target){start=target;clearInterval(t)}
+    el.textContent=Math.round(start).toLocaleString()+(suffix||'');
+  },duration/60);
+}
+setTimeout(()=>{
+  animateCount(document.getElementById('stat1'),1248,'',1200);
+  animateCount(document.getElementById('stat2'),342,'',1200);
+  document.getElementById('stat3').textContent='0 ETH';
+  let e=0,t=setInterval(()=>{
+    e+=0.12;if(e>=7.24){e=7.24;clearInterval(t)}
+    document.getElementById('stat3').textContent=e.toFixed(2)+' ETH';
+  },1200/60);
+},400);
+
+// Ripple
+function ripple(btn){
+  btn.style.transform='scale(0.96)';
+  setTimeout(()=>btn.style.transform='',150);
+}
+
+// Toggle
+function toggleMe(id){
+  document.getElementById(id).classList.toggle('on');
+}
+
+// Load simulation
+function simulateLoad(btn){
+  const orig=btn.textContent;
+  btn.textContent='Submitting...';
+  btn.disabled=true;
+  btn.style.opacity='.7';
+  setTimeout(()=>{
+    btn.textContent='✓ Submitted!';
+    btn.style.background='var(--accent3)';
+    setTimeout(()=>{
+      btn.textContent=orig;
+      btn.style.background='';
+      btn.disabled=false;
+      btn.style.opacity='';
+    },2000);
+  },1500);
+}
+function simulateLoad2(btn){
+  const orig=btn.textContent;
+  btn.textContent='Deploying ●●●';
+  btn.disabled=true;
+  let dots=0;
+  let iv=setInterval(()=>{
+    dots=(dots+1)%4;
+    btn.textContent='Deploying '+'●'.repeat(dots+1)+'○'.repeat(3-dots);
+  },400);
+  setTimeout(()=>{
+    clearInterval(iv);
+    btn.textContent='✓ Deployed';
+    btn.style.color='var(--accent3)';
+    btn.style.borderColor='var(--accent3)';
+    setTimeout(()=>{
+      btn.textContent=orig;
+      btn.style.color='';btn.style.borderColor='';
+      btn.disabled=false;
+    },2000);
+  },2500);
+}
+
+// Exp level
+function updateExp(v){
+  const labels=['Beginner','Intermediate','Expert'];
+  document.getElementById('expLevel').textContent=labels[v-1];
+}
+
+// Progress bars
+function animateBars(){
+  ['pb1','pb2','pb3'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    const targets=[88,92,75];
+    el.style.width='0%';
+    setTimeout(()=>{ el.style.width=targets[i]+'%'; },50+i*150);
+  });
+}
+setTimeout(animateBars,600);
+
+// Spotlight
+function spotlight(e,id){
+  const card=document.getElementById(id);
+  const rect=card.getBoundingClientRect();
+  const x=((e.clientX-rect.left)/rect.width*100).toFixed(1);
+  const y=((e.clientY-rect.top)/rect.height*100).toFixed(1);
+  card.style.setProperty('--mx',x+'%');
+  card.style.setProperty('--my',y+'%');
+}
+
+// Toast
+let tc=0;
+function addToast(){
+  const types=[
+    {cls:'toast-success',icon:'✓',title:'Payment Released',body:'1.2 ETH đã được giải ngân thành công'},
+    {cls:'toast-info',icon:'◈',title:'Contract Deployed',body:'EscrowContract đã được deploy lên Polygon'},
+    {cls:'toast-warn',icon:'⚠',title:'Low Balance',body:'Số dư ví dưới ngưỡng cần thiết cho gas fee'},
+  ];
+  const t=types[tc%3]; tc++;
+  const el=document.createElement('div');
+  el.className=`toast ${t.cls}`;
+  el.innerHTML=`<div class="toast-icon">${t.icon}</div><div><div class="toast-title">${t.title}</div><div class="toast-body">${t.body}</div></div><div class="toast-progress"></div>`;
+  el.style.animationDelay='0s';
+  document.getElementById('toast-area').prepend(el);
+  setTimeout(()=>el.style.opacity='0',3500);
+  setTimeout(()=>el.remove(),4000);
+}
+
+// Btn animation for wallet
+function animateBtn(btn){
+  btn.style.transform='scale(0.95)';
+  setTimeout(()=>btn.style.transform='',150);
+}
+</script>
+</body>
+</html>
