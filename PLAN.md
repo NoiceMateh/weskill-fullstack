@@ -17,7 +17,7 @@ Xây MVP LMS cho học viên học trực tiếp trên web: học viên có `enr
 - Route `/learn/:courseId` hiển thị sidebar module/bài học, vùng video, ảnh bài học, mô tả, tài liệu và nút đánh dấu hoàn thành.
 - Video ưu tiên render YouTube/Vimeo bằng iframe; nếu không có thì render `videoUrl` bằng `<video controls>`.
 - Lesson chưa có video hiển thị trạng thái “Bài học đang cập nhật video”.
-- Progress cập nhật ngay trên UI sau khi API thành công.
+- Progress cập nhật ngay trên UI sau khi API thành công. ok
 
 ## Backend Implementation
 - `learningService` kiểm tra quyền truy cập bằng điều kiện user đã đăng nhập và tồn tại enrollment `{ userId, courseId, status: "active" }`.
